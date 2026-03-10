@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from scraper import get_product_reviews
-from classifier import analyze_sentiment  # Import your verified logic
+from classifier import analyze_sentiment
 
 app = Flask(__name__)
 CORS(app)
@@ -18,7 +18,7 @@ def analyze():
         "product": product_name,
         "sentiment": sentiment_data,
         "total_reviews": len(reviews),
-        "reviews": reviews  # Add this line to send the text to React
+        "reviews": reviews
     })
 
 

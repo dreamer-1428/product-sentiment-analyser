@@ -23,7 +23,6 @@ def get_product_reviews(product_name):
 
     soup = BeautifulSoup(driver.page_source, 'html.parser')
 
-    # Updated selectors for Amazon/Flipkart reviews
     review_elements = soup.select('span[data-hook="review-body"]')
     if not review_elements:
         review_elements = soup.find_all('div', {'class': 'a-expander-content'})
@@ -34,25 +33,23 @@ def get_product_reviews(product_name):
 
 
     if not reviews_list:
-        return []  # Ensures you never get a "NoneType" error
+        return []
 
     df = pd.DataFrame(reviews_list, columns=['Raw_Review'])
     df['Clean_Review'] = df['Raw_Review'].str.replace(r'[^\w\s]', '', regex=True)
 
-    return df['Clean_Review'].tolist()  # This MUST be the final line
+    return df['Clean_Review'].tolist()
 
 
 
 
-# This part tells Python to actually EXECUTE the scraper for a test
 if __name__ == "__main__":
     print("--- Starting Test Scrape ---")
-    # We are testing with a known product
     results = get_product_reviews("boat headphones")
 
     if results:
         print(f"Successfully scraped {len(results)} reviews!")
-        for i, review in enumerate(results[:3]):  # Show the first 3 results
+        for i, review in enumerate(results[:3]):
             print(f"Review {i + 1}: {review[:100]}...")
     else:
         print("No reviews found. Check your internet or selectors.")
